@@ -11,7 +11,7 @@ Settings
 	building cost increase:115%
 	building cost refund:50%
 	spritesheet:icons, 48 by 48, stuff/voteIcons.png
-	stylesheet:sajat_css.txt
+	stylesheet:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/sajat_css.txt
 
 Layout
 	use default
