@@ -109,7 +109,7 @@ Buildings
 		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/plakat.png
 		cost:300 votes
 		on tick:yield 5 vote
-		req:150 votes:earned
+		req:70 votes:earned
 
 	*propaganda
 		name:Propaganda
@@ -168,7 +168,7 @@ Upgrades
 		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/achi.png
 		cost:1000 vote
 		passive:multiply vote yield of voteButton by 4
-		req:800 vote:earned
+		req:400 vote:earned
 		on earn:hide this
 
 	*simaUpgrade2
@@ -358,7 +358,7 @@ Upgrades
 		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/fidelitas.png
 		cost:1000 vote
 		passive:multiply yield of aktivista by 1.2
-		req:aktivista>=10
+		req:aktivista>=5
 		on earn:hide this
 
 	*aktivistaUpgrade2
@@ -367,7 +367,7 @@ Upgrades
 		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/berkommentelo.png
 		cost:4000 vote
 		passive:multiply yield of aktivista by 1.2
-		req:aktivista>=20
+		req:aktivista>=10
 		on earn:hide this
 
 	*aktivistaUpgrade3
@@ -376,7 +376,7 @@ Upgrades
 		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/kopaszok.png
 		cost:8000 vote
 		passive:multiply yield of aktivista by 1.2
-		req:aktivista>=35
+		req:aktivista>=15
 		on earn:hide this
 
 	*aktivistaUpgrade4
@@ -385,7 +385,7 @@ Upgrades
 		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/nyugdijas.png
 		cost:16000 vote
 		passive:multiply yield of aktivista by 1.2
-		req:aktivista>=50
+		req:aktivista>=20
 		on earn:hide this
 
 	*tvUpgrade1
