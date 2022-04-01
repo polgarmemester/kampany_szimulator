@@ -1,0 +1,453 @@
+Let's make a game!
+	name: Kampány szimulátor
+	by: Polgármemester
+	desc:Tanuld meg hogyan kell szavazókat gyüjtened!
+	created:11/3/2022
+	updated:11/3/2022
+	version:1
+
+Settings
+	background:hatter.png
+	building cost increase:115%
+	building cost refund:50%
+	spritesheet:icons, 48 by 48, stuff/voteIcons.png
+	stylesheet:sajat_css.txt
+
+Layout
+	use default
+
+Buttons
+	*voteButton
+		name:Gyűjts egy szavazót!
+		desc:Egy kattintással krumplit osztasz, amivel egy szavazót tudsz gyűjteni.
+		on click:anim icon wobble_sajat
+		on click:yield 1 vote
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/zsak_krumpli.png
+		no text
+		class:bigButton hasFlares
+		icon class:shadowed
+		tooltip origin:bottom
+		tooltip class:red
+
+Resources
+	*vote|votes
+		name:Szavazó
+		desc:Ezek az eddig összegyüjtött szvazóid. A célod minél több szavazót gyüjteni és megnyerni a választást!
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/npc_arc.png
+		class:noBackground
+		show earned
+
+Shinies
+
+	*vutton
+		on click:log Woop
+		movement:grow anywhere fade
+		frequency:60
+		frequency variation:20
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/vutton_taska.png
+		class:bigButton
+		on click:
+			$amount=round(votes:ps*30)
+			$amountlose=round(votes:ps*10)
+			$melyik=random(0,12)
+			if ($melyik is 0)
+				toast Bevezetted a vasárnapi boltzárat! Vesztettél [$amountlose] szavazót.
+				lose $amountlose vote
+			else if ($melyik is 1)
+				toast Kipattant a Borkai-ügy! A szavazóid száma nem változott.
+			else if ($melyik is 2)
+				toast Bevezetted a netadót! Vesztettél [$amountlose] szavazót.
+				lose $amountlose vote
+			else if ($melyik is 3)
+				toast Gundel-ügy! Vesztettél [$amountlose] szavazót.
+				lose $amount vote
+			else if ($melyik is 4)
+				toast Szerveztél egy békemenetet! Szereztél [$amount] szavazót.
+				yield $amount vote
+			else if ($melyik is 5)
+				toast Elindult a menekülthullám! Szereztél [$amount] szavazót.
+				yield $amount vote
+			else if ($melyik is 6)
+				toast Határkerítést építettél! Szereztél [$amount] szavazót.
+				yield $amount vote
+			else if ($melyik is 7)
+				toast Tarry Black kitálalt! Szereztél [$amount] szavazót.
+				yield $amount vote
+			else if ($melyik is 8)
+				toast Győzike belépett a pártba! Szereztél [$amount] szavazót.
+				yield $amount vote
+			else if ($melyik is 9)
+				toast Bezártad a CEU-t! A szavazóid száma nem változott.
+			else if ($melyik is 10)
+				toast Felbukkant a csengeri örökösnő! Vesztettél [$amountlose] szavazót.
+				lose $amountlose vote
+			else if ($melyik is 11)
+				toast Pegazus-ügy! A szavazóid száma nem változott.
+			else if ($melyik is 12)
+				toast A Lady MRD-n nyaraltál! Vesztettél [$amountlose] szavazót.
+				lose $amountlose vote
+			end
+		end
+
+Buildings
+	*TEMPLATE
+		on click:anim glow
+
+	*aktivista
+		name:Aktivista
+		desc:Egy lojális követő.<//><b>Hatás:</b><.>10 másodpercenként gyűjt egy szavazót.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/aktivista.png
+		cost:20 votes
+		//on tick:yield 100000 vote
+		on tick:yield 0.1 vote
+		req:10 votes:earned
+		// Hiba nélkül képes leírni, hogy "mER gYÚrCsánY jObB vÓT?"
+
+	*oriasplakat
+		name:Óriásplakát
+		desc:Kicsit túlárazott, de a barátok jól járnak. <//><b>Hatás:</b><.>Másodpercenként gyűjt 5 szavazót.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/plakat.png
+		cost:300 votes
+		on tick:yield 5 vote
+		req:150 votes:earned
+
+	*propaganda
+		name:Propaganda
+		desc:Független-objektivitás nem létezik, csak az ellenzék találta ki. <//><b>Hatás:</b><.>Másodpercenként gyűjt 13 szavazót.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/propaganda.png
+		cost:2000 votes
+		on tick:yield 13 vote
+		req:1000 votes:earned
+
+	*intezet
+		name:Intézet
+		desc:Csak azt a statisztikát hiszem el, amit én hamisítok. <//><b>Hatás:</b><.>Másodpercenként gyűjt 60 szavazót.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/intezet.png
+		cost:15000 votes
+		on tick:yield 60 vote
+		req:10000 votes:earned
+
+	*tv
+		name:Tévé
+		desc:Megszóllítja a fiatalokat. <//><b>Hatás:</b><.>Másodpercenként gyűjt 300 szavazót.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/tv.png
+		cost:100000 votes
+		on tick:yield 300 vote
+		req:50000 votes:earned
+
+	*oligarcha
+		name:Oligarcha
+		desc:A nemzeti tőkés osztály megteremtése. <//><b>Hatás:</b><.>Másodpercenként gyűjt 4000 szavazót.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/oligarcha.png
+		cost:950000 votes
+		on tick:yield 4000 vote
+		req:300000 votes:earned
+
+	*ellenzeki
+		name:Álellenzéki
+		desc:Egy kis parkolási pénzért jól szolgálnak. <//><b>Hatás:</b><.>Másodpercenként gyűjt 33000 szavazót.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/ellenzek.png
+		cost:3000000 votes
+		on tick:yield 33000 vote
+		req:1500000 votes:earned
+
+	*ketharmad
+		name:Választás
+		desc:Nyerd meg a választást háromharmaddal!
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/haromharmad.png
+		cost:15000000 votes
+		req:10000000 votes:earned
+		limit:100
+		cost increase:200%
+
+Upgrades
+
+	*simaUpgrade1
+		name:Rezsicsökkentés
+		desc:"Ha van orosz gáz, van rezsicsökkentés, ha nincs orosz gáz, nincs rezsicsökkentés."<//><b>Hatás:</b><.>A kattintás duplát ér
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/achi.png
+		cost:1000 vote
+		passive:multiply vote yield of voteButton by 4
+		req:800 vote:earned
+		on earn:hide this
+
+	*simaUpgrade2
+		name:CSOK
+		desc:"Fideszessel szexelek"<//><b>Hatás:</b><.>A kattintás duplát ér
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/achi.png
+		cost:5000 vote
+		passive:multiply vote yield of voteButton by 4
+		req:4000 vote:earned
+		on earn:hide this
+
+	*simaUpgrade3
+		name:Közmunka
+		desc:Ha munka van minden van.<//><b>Hatás:</b><.>A kattintás duplát ér
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/achi.png
+		cost:15000 vote
+		passive:multiply vote yield of voteButton by 2
+		req:10000 vote:earned
+		on earn:hide this
+
+	*simaUpgrade4
+		name:Far-hát-stop
+		desc:Akciós a csirkefarhát!<//><b>Hatás:</b><.>A kattintás duplát ér
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/achi.png
+		cost:100000 vote
+		passive:multiply vote yield of voteButton by 2
+		req:80000 vote:earned
+		on earn:hide this
+
+	*simaUpgrade5
+		name:Benzinár-stop
+		desc:Ha veszteséges átveszi a MOL.<//><b>Hatás:</b><.>A kattintás duplát ér
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/achi.png
+		cost:200000 vote
+		passive:multiply vote yield of voteButton by 2
+		req:150000 vote:earned
+		on earn:hide this
+
+	*ellenzekiUpgrade1
+		name:VolNER Párt
+		desc:Volner János pártja visszalép a nemzet javára.<//><b>Hatás:</b><.>Ellenzeki termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/volner.png
+		cost:5000000 vote
+		passive:multiply yield of ellenzeki by 1.2
+		req:ellenzeki>=2
+		on earn:hide this
+
+	*ellenzekiUpgrade2
+		name:Tóth Csaba
+		desc:"Hadházy összeférhetetlen ember, 8 év fideszes politizálás után elárulta a párttársait a trafikmutyi kiszivárogtatásával."<//><b>Hatás:</b><.>Ellenzeki termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/tothcsaba.png
+		cost:7000000 vote
+		passive:multiply yield of ellenzeki by 1.2
+		req:ellenzeki>=5
+		on earn:hide this
+
+	*ellenzekiUpgrade3
+		name:Molnár Zsolt
+		desc:Molnár Zsolt notesze már betelt a jelöltek neveivel.<//><b>Hatás:</b><.>Ellenzeki termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/molnarzsolt.png
+		cost:9000000 vote
+		passive:multiply yield of ellenzeki by 1.2
+		req:ellenzeki>=10
+		on earn:hide this
+
+	*intezetUpgrade1
+		name:Századvég
+		desc:"Miután viszonylag mostoha körülmények között készült az interjú, emlékeztettek korábbi saját gondolataimra."<//><b>Hatás:</b><.>Intezet termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/szazadveg.png
+		cost:45000 vote
+		passive:multiply yield of intezet by 1.2
+		req:intezet>=3
+		on earn:hide this
+
+	*intezetUpgrade2
+		name:Nézőpont
+		desc:"Akkor járunk el helyesen, ha a saját észjárásunknak megfelelően, a magunk akarata szerint a valóságot is képesek vagyunk hajlítani."<//><b>Hatás:</b><.>Intezet termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/nezopont.png
+		cost:90000 vote
+		passive:multiply yield of intezet by 1.2
+		req:intezet>=7
+		on earn:hide this
+
+	*intezetUpgrade3
+		name:21. század
+		desc:"Jó lenne csinálni egy Viktorjugendet"<//><b>Hatás:</b><.>Intezet termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/21szazad.png
+		cost:170000 vote
+		passive:multiply yield of intezet by 1.2
+		req:intezet>=9
+		on earn:hide this
+
+	*propagandaUpgrade1
+		name:Megyei lapok
+		desc:"Maga még klasszikus újságos, nem?"<//><b>Hatás:</b><.>Propaganda termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/megyei.png
+		cost:5000 vote
+		passive:multiply yield of propaganda by 1.2
+		req:propaganda>=5
+		on earn:hide this
+
+	*propagandaUpgrade2
+		name:Origó
+		desc:"Soros a teljes ellenzéket leváltja, és saját maga nevezi ki az új ellenzéket"<//><b>Hatás:</b><.>Propaganda termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/origo.png
+		cost:10000 vote
+		passive:multiply yield of propaganda by 1.2
+		req:propaganda>=10
+		on earn:hide this
+
+	*propagandaUpgrade3
+		name:KESMA
+		desc:"Igényes, jó tollú újságírókat inkább a másik oldalon látok."<//><b>Hatás:</b><.>Propaganda termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/kesma.png
+		cost:15000 vote
+		passive:multiply yield of propaganda by 1.2
+		req:propaganda>=15
+		on earn:hide this
+
+	*propagandaUpgrade4
+		name:INDEX
+		desc:"Mészáros Lőrinc, a leggazdagabb adakozó."<//><b>Hatás:</b><.>Propaganda termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/index.png
+		cost:20000 vote
+		passive:multiply yield of propaganda by 1.2
+		req:propaganda>=20
+		on earn:hide this
+
+	*oriasplakatUpgrade1
+		name:Folytatjuk
+		desc:"Én csak hallottam, hogy dobnak fel ilyeneket is."<//><b>Hatás:</b><.>Óriasplakát termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/folytatjuk.png
+		cost:1000 vote
+		passive:multiply yield of oriasplakat by 1.2
+		req:oriasplakat>=5
+		on earn:hide this
+
+	*oriasplakatUpgrade2
+		name:Stop Soros!
+		desc:"Ez veszélyes! A Soros tervet meg kell akadályozni!"<//><b>Hatás:</b><.>Óriasplakát termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/soros.png
+		cost:2000 vote
+		passive:multiply yield of oriasplakat by 1.2
+		req:oriasplakat>=10
+		on earn:hide this
+
+	*oriasplakatUpgrade3
+		name:"@?%#!"
+		desc:Dühíti önt Brüsszel?<//><b>Hatás:</b><.>Óriasplakát termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/emoji.png
+		cost:5000 vote
+		passive:multiply yield of oriasplakat by 1.2
+		req:oriasplakat>=15
+		on earn:hide this
+
+	*o1gUpgrade
+		name:O1G
+		desc:"Orbán egy geci. Bemegyek a szerkesztőségbe és mindenkit kibaszok."<//><b>Hatás:</b><.>Ismeretlen
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/o1g.png
+		cost:2000000 vote
+		passive:multiply yield of oligarcha by 0.5
+		req:oligarcha>=3 and have oligarchaUpgrade1
+		on earn:hide this
+
+	*oligarchaUpgrade1
+		name:Simicska
+		desc:"Ő is volt a legokosabb egyébként közöttünk"<//><b>Hatás:</b><.>Oligarcha termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/simicska.png
+		cost:1500000 vote
+		passive:multiply yield of oligarcha by 1.2
+		req:oligarcha>=1
+		on earn:hide this
+
+	*oligarchaUpgrade2
+		name:Mészáros
+		desc:"Ezt miből számolta ki? Matematikus ön?"<//><b>Hatás:</b><.>Oligarcha termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/meszaros.png
+		cost:2500000 vote
+		passive:multiply yield of oligarcha by 2.5
+		req:oligarcha>=5 and have o1gUpgrade
+		on earn:hide this
+
+
+	*aktivistaUpgrade1
+		name:Fidelitaszos
+		desc:"öööööööööööööööööööööö"<//><b>Hatás:</b><.>Aktivista termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/fidelitas.png
+		cost:1000 vote
+		passive:multiply yield of aktivista by 1.2
+		req:aktivista>=10
+		on earn:hide this
+
+	*aktivistaUpgrade2
+		name:Bérkommentelő
+		desc:Hiba nélkül képes leírni, hogy "mER gYÚrCsánY jObB vÓT?"<//><b>Hatás:</b><.>Aktivista termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/berkommentelo.png
+		cost:4000 vote
+		passive:multiply yield of aktivista by 1.2
+		req:aktivista>=20
+		on earn:hide this
+
+	*aktivistaUpgrade3
+		name:Kopaszok
+		desc:"Nem tetszenek a szakállas fiúk, de veled kivételt teszek."<//><b>Hatás:</b><.>Aktivista termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/kopaszok.png
+		cost:8000 vote
+		passive:multiply yield of aktivista by 1.2
+		req:aktivista>=35
+		on earn:hide this
+
+	*aktivistaUpgrade4
+		name:Nyugdíjas
+		desc:"Akartok egy kis sósavat a pofátokba?"<//><b>Hatás:</b><.>Aktivista termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/nyugdijas.png
+		cost:16000 vote
+		passive:multiply yield of aktivista by 1.2
+		req:aktivista>=50
+		on earn:hide this
+
+	*tvUpgrade1
+		name:Közmédia
+		desc:"Ebben az intézményben nem az ellenzéki összefogást támogatják".<//><b>Hatás:</b><.>Tévé termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/m1.png
+		cost:200000 vote
+		passive:multiply yield of tv by 1.2
+		req:tv>=5
+		on earn:hide this
+
+	*tvUpgrade2
+		name:Echo TV
+		desc:"Mi sumérok, szkíták, etruszkok, kelták, hunok - vagyis magyarok - megszenvedtük választottságunkat".<//><b>Hatás:</b><.>Tévé termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/echo.png
+		cost:380000 vote
+		passive:multiply yield of tv by 1.2
+		req:tv>=10
+		on earn:hide this
+
+	*tvUpgrade3
+		name:Hír TV
+		desc:"Szerintünk.Orbán. Nem. Geci.".<//><b>Hatás:</b><.>Tévé termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/hirtv.png
+		cost:700000 vote
+		passive:multiply yield of tv by 1.2
+		req:tv>=15
+		on earn:hide this
+
+	*tvUpgrade4
+		name:Közmédia
+		desc:"Túlélték, mégis meghaltak".<//><b>Hatás:</b><.>Tévé termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/tv2.png
+		cost:1450000 vote
+		passive:multiply yield of tv by 1.2
+		req:tv>=20
+		on earn:hide this
+
+	*tvUpgrade5
+		name:Pesti TV
+		desc:"A normalitás lázadása"<//><b>Hatás:</b><.>Tévé termelés +20%.
+		icon:https://raw.githubusercontent.com/polgarmemester/kampany_szimulator/main/pestitv.png
+		cost:2900000 vote
+		passive:multiply yield of tv by 1.2
+		req:tv>=25
+		on earn:hide this
+
+Achievements
+	*TEMPLATE
+		on click:anim glow
+
+	*valasztasAchiev1
+		name:Győztünk!
+		desc:Megnyerted a választást háromharmaddal!.<//>Azonban Soros leváltja az egész ellenzéket és újra hatalomra tör!<//>Szerezz újabb győzelmeket!
+		req:1 ketharmad
+
+	*valasztasAchiev2
+		name:Győztünk!
+		desc:Már háromszor megnyerted a választást háromharmaddal!.<//>Az gombócból is sok.
+		req:3 ketharmad
+
+	*valasztasAchiev3
+		name:Győztünk!
+		desc:Tíz ciklus egymás után!.<//>Putyin megirígyelné. Köszönjük, hogy játszodtál!
+		req:10 ketharmad
